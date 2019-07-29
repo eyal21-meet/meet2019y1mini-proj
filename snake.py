@@ -3,6 +3,7 @@ import random #We'll need this later in the lab
 
 turtle.tracer(1,0) #This helps the turtle move more smoothly
 
+food_num = 1
 SIZE_X=800
 SIZE_Y=500
 turtle.setup(SIZE_X, SIZE_Y) #Curious? It's the turtle window  
@@ -94,6 +95,56 @@ turtle.onkeypress(left, "Left")
 
 turtle.listen()
 
+#ADD THE LINES BELOW
+
+#turtle.register_shape("trash.gif") #Add trash picture
+                      # Make sure you have downloaded this shape 
+                      # from the Google Drive folder and saved it
+                      # in the same folder as this Python script
+
+food = turtle.clone()
+food.shape("circle") 
+#Locations of food
+food_pos = []
+food_stamps = []
+
+# Write code that:
+#1. moves the food turtle to each food position
+#2. stamps the food turtle at that location
+#3. saves the stamp by appending it to the food_stamps list using
+# food_stamps.append(    )
+#4. Don't forget to hide the food turtle!
+
+
+def make_food():
+    #The screen positions go from -SIZE/2 to +SIZE/2
+    #But we need to make food pieces only appear on game squares
+    #So we cut up the game board into multiples of SQUARE_SIZE.
+    min_x=-int(SIZE_X/2/SQUARE_SIZE)+1
+    max_x=int(SIZE_X/2/SQUARE_SIZE)-1
+    min_y=-int(SIZE_Y/2/SQUARE_SIZE)+1
+    max_y=int(SIZE_Y/2/SQUARE_SIZE)-1
+    
+    #Pick a position that is a random multiple of SQUARE_SIZE
+    
+
+    food_x = random.randint(min_x,max_x)*SQUARE_SIZE
+    food_y = random.randint(min_y,max_y)*SQUARE_SIZE
+
+    food_pos.append((food_x, food_y))
+    
+    
+    ####WRITE YOUR CODE HERE!!
+    food.goto(food_x, food_y)
+    y = food.stamp()
+    food_stamps.append(y)
+
+        ##1.WRITE YOUR CODE HERE: Make the food turtle go to the randomly-generated
+        ##                        position 
+        ##2.WRITE YOUR CODE HERE: Add the food turtle's position to the food positions list
+        ##3.WRITE YOUR CODE HERE: Add the food turtle's stamp to the food stamps list
+
+
 def move_snake():
     my_pos = snake.pos()
     x_pos = my_pos[0]
@@ -119,7 +170,6 @@ def move_snake():
         quit()
 
 
-    
     #4. Write the conditions for RIGHT and LEFT on your own
     ##### YOUR CODE HERE
 
@@ -129,16 +179,21 @@ def move_snake():
 
     ######## SPECIAL PLACE - Remember it for Part 5
 
+    if len(food_stamps) < food_num:
+        make_food()
+        
+    if snake.pos() in food_pos:
+        food_index = food_pos.index(snake.pos())
+        food.clearstamp(food_stamps[food_index])
+        food_pos.pop(food_index)
+        food_stamps.pop(food_index)
+        
     #remove the last piece of the snake (Hint Functions are FUN!)
     remove_tail()
-    
+
     turtle.ontimer(move_snake, time_step)
 
-    
 move_snake()
-
-
-
 
 
 turtle.mainloop()
