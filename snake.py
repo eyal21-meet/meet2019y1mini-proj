@@ -1,9 +1,11 @@
+
 import turtle
 import random #We'll need this later in the lab
 
 turtle.tracer(1,0) #This helps the turtle move more smoothly
 
 food_num = 1
+
 SIZE_X=800
 SIZE_Y=500
 turtle.setup(SIZE_X, SIZE_Y) #Curious? It's the turtle window  
@@ -97,13 +99,13 @@ turtle.listen()
 
 #ADD THE LINES BELOW
 
-#turtle.register_shape("trash.gif") #Add trash picture
+turtle.register_shape("trash.gif") #Add trash picture
                       # Make sure you have downloaded this shape 
                       # from the Google Drive folder and saved it
                       # in the same folder as this Python script
 
 food = turtle.clone()
-food.shape("circle") 
+food.shape("trash.gif") 
 #Locations of food
 food_pos = []
 food_stamps = []
@@ -181,17 +183,26 @@ def move_snake():
 
     if len(food_stamps) < food_num:
         make_food()
-        
+
+    
     if snake.pos() in food_pos:
         food_index = food_pos.index(snake.pos())
         food.clearstamp(food_stamps[food_index])
         food_pos.pop(food_index)
         food_stamps.pop(food_index)
-        
+
+    else:
+        remove_tail()
+    
+
+    if snake.pos() in pos_list[:-1]:
+        quit()
+    
     #remove the last piece of the snake (Hint Functions are FUN!)
-    remove_tail()
+    
 
     turtle.ontimer(move_snake, time_step)
+
 
 move_snake()
 
