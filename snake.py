@@ -1,4 +1,3 @@
-
 import turtle
 import random #We'll need this later in the lab
 
@@ -13,8 +12,9 @@ turtle.setup(SIZE_X, SIZE_Y) #Curious? It's the turtle window
 turtle.penup()
 
 SQUARE_SIZE = 20
-START_LENGTH = 6
+START_LENGTH = 12
 time_step = 100
+
 
 #Initialize lists
 pos_list = []
@@ -24,7 +24,7 @@ food_stamps = []
 
 #Set up positions (x,y) of boxes that make up the snake
 snake = turtle.clone()
-snake.shape("square")
+snake.shape("circle")
 
 #Hide the turtle object (it's an arrow - we don't need to see it)
 turtle.hideturtle()
@@ -190,6 +190,7 @@ def move_snake():
         food.clearstamp(food_stamps[food_index])
         food_pos.pop(food_index)
         food_stamps.pop(food_index)
+        
 
     else:
         remove_tail()
